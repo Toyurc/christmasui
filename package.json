@@ -6,12 +6,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^1.2.1",
+    "jsonwebtoken": "^9.0.0",
     "next": "latest",
+    "qrcode": "^1.5.1",
     "react": "18.2.0",
+    "react-audio-player": "^0.17.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "18.11.3",
+    "@types/qrcode": "^1.5.0",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.12",
