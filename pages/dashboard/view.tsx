@@ -45,11 +45,12 @@ const View: NextPage = () => {
   useEffect(() => {
     getMessages();
   }, []);
+  
 
   return (
     <div>
       <Head>
-        <title>View Messages</title>
+        <title>View Christmas Messages</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -77,7 +78,7 @@ const View: NextPage = () => {
                 <td>{row.description}</td>
                 <td>{row.reference}</td>
                 <td>{row.link}</td>
-                <QRCodeGenerator link={`http://localhost:5000/messages/${row.id}`} />
+                <QRCodeGenerator link={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/messages/${row.id}`} />
               </tr>
             )
           } />

@@ -9,6 +9,7 @@ import requestClient from '../../requestClient';
 const Create: NextPage = () => {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const context = useContext(AuthContext)
   const router = useRouter();
 
@@ -44,6 +45,7 @@ const Create: NextPage = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setLoading(true)
     const response = await handleUploadClick(event);
     if (response) {
       requestClient.post('/messages', {
@@ -55,7 +57,10 @@ const Create: NextPage = () => {
         })
         .catch(err => {
           console.log(err);
-        });
+        })
+        .finally(() => {
+          setLoading(false);
+        })
     }
   }
 
@@ -67,12 +72,12 @@ const Create: NextPage = () => {
   useEffect(() => {
     // checks if the user is authenticated
     !context.isAuthenticated && router.push("/");
-    }, []);
+  }, []);
 
   return (
     <div>
       <Head>
-        <title>View Messages</title>
+        <title>Create Christmas Messages</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -109,7 +114,7 @@ const Create: NextPage = () => {
                 className='mt-2 max-w-xs py-4 px-2 border-black border-solid border-2 rounded shadow-sm resize w-full'
                 onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
             </div>
-            <button type="submit" className='rounded-md mt-4 bg-black text-white py-2 px-4'>Create Message</button>
+            <button type="submit" disabled={loading} className='rounded-md mt-4 bg-black text-white py-2 px-4'>{loading ? 'Loading...' : 'Create Message'}</button>
           </form>
         </div>
       </main>

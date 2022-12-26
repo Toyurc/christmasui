@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import ReactAudioPlayer from 'react-audio-player';
+import Head from 'next/head'
+
 
 interface Props {
   description: string;
@@ -14,14 +16,20 @@ const DescriptionAndAudio: React.FC<Props> = ({ description, audioUrl, error }) 
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <p className="text-xl font-bold text-gray-900 mb-4">{description}</p>
-      <ReactAudioPlayer
-        src={audioUrl}
-        autoPlay
-        controls
-      />
-    </div>
+    <>
+      <Head>
+        <title>View Christmas Messages</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="flex min-h-screen flex-col items-center justify-center py-2">
+        <p className="text-xl font-bold text-gray-900 mb-4">{description}</p>
+        <ReactAudioPlayer
+          src={audioUrl}
+          autoPlay
+          controls
+        />
+      </div>
+    </>
   );
 };
 

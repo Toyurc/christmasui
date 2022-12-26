@@ -9,10 +9,12 @@ import requestClient from '../requestClient'
 const Home: NextPage = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const { addToken } = useContext(AuthContext)
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     requestClient.post('/auth/login', {
       username,
@@ -27,12 +29,15 @@ const Home: NextPage = () => {
       .catch(err => {
         console.log(err);
       })
+      .finally(() => {
+        setLoading(false);
+      })
   }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
-        <title>Create Next App</title>
+        <title>Christmas</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -55,7 +60,7 @@ const Home: NextPage = () => {
               className='mt-2 max-w-xs py-4 px-2 border-black border-solid border-2 rounded shadow-sm'
               type={'password'} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
           </div>
-          <button type="submit" className='rounded-md mt-4 bg-black text-white py-2 px-4'>Login</button>
+          <button type="submit" disabled={loading} className='rounded-md mt-4 bg-black text-white py-2 px-4'>{loading ? 'Loading...' : 'Login'}</button>
         </form>
       </main>
     </div>

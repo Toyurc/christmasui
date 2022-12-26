@@ -22,8 +22,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   const addUserToken = (myToken: string) => {
-    const decoded = jwt.decode(myToken);
-    if ((decoded as JwtPayload).exp as number < Date.now() / 1000) {
+    const decoded = jwt.decode(myToken as string);
+    if (token !== "" && (decoded as JwtPayload)?.exp as number < Date.now() / 1000) {
       localStorage.removeItem('accessToken');
       router.push('/');
     }
@@ -32,7 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
   useEffect(() => {
-    if (token !== "" && (jwt.decode(token) as JwtPayload).exp as number < Date.now() / 1000) {
+    const myToken = localStorage.getItem('accessToken');
+    addUserToken(myToken as string)
+    if (token !== "" && (jwt.decode(token as string) as JwtPayload)?.exp as number < Date.now() / 1000) {
       localStorage.removeItem('accessToken');
       router.push('/');
     }
@@ -41,8 +43,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Hydrated>
       <AuthContext.Provider value={{
-        accessToken: token,
-        addToken: addUserToken,
+        accessToken: token as string,
+        addToken: (token) => addUserToken(token),
         isAuthenticated: !!token
       }}>
         <Component {...pageProps} />
